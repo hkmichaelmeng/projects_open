@@ -1,0 +1,202 @@
+---
+title: "R_Cyclistic_Business_Full_Year_Analysis"
+author: "Michael"
+date: "2021/9/22"
+output: html_document
+---
+# 1. Project Backgroud and working environment setting
+## Project background introduction
+Cyclistic bike-share analysis is a frictional case study organized by Google Data Analytics capstone project team. In the project hypothesis, the marketing director of Cyclistic company, that is Lily Moreno, what to design a marketing strategy for converting casual riders to annual members to reinforce company’s future. The marketing strategy should answer the following questions.
+
+1. How do annual members and casual riders use Cyclistic bikes differently? 
+2. Why would casual riders buy Cyclistic annual memberships? 
+3. How can Cyclistic use digital media to influence casual riders to become members?
+
+This section analysis is trying to answer the first question, finding behavior insights or patterns between two type customers. 
+
+## Data resources and ROCCC inspect
+1. Cyclistic is a fictional company for the purposes of this case study. 
+2. The data has been made available by Motivate International Inc. under [this license](https://www.divvybikes.com/data-license-agreement)
+3. The data was downloaded from amazonaws website [link](https://divvy-tripdata.s3.amazonaws.com/index.html).
+4. As case study statement required, downloaded previous 12 months data, that’s from Sep 2020 to Aug 2021.
+
+## Install required packages and other environments setting.
+```{r environment seeting, echo=FALSE, warning=FALSE}
+Sys.setlocale("LC_TIME", "English")
+library(tidyverse)
+library(ggplot2)
+library(lubridate)
+```
+
+
+# 2. Inspecting monthly Data
+## Ispecting data of August 2021.
+```{r upload and check data, echo=TRUE, warning=FALSE}
+setwd("D:/resume_portfolio/cyclistic_google_case1/divvy_tripdata")  
+m8_2021 <-read_csv('202108-divvy-tripdata.csv')  #Rows: 804352 Columns: 13 
+colnames(m8_2021)
+str(m8_2021)
+```
+## Uploading other 11 months' data.
+```{r upload 11 months data, echo=FALSE, warning=FALSE}
+setwd("D:/resume_portfolio/cyclistic_google_case1/divvy_tripdata")
+m7_2021 <-read_csv('202107-divvy-tripdata.csv')
+m6_2021 <-read_csv('202106-divvy-tripdata.csv')
+m5_2021 <-read_csv('202105-divvy-tripdata.csv')
+m4_2021 <-read_csv('202104-divvy-tripdata.csv')
+m3_2021 <-read_csv('202103-divvy-tripdata.csv')
+m2_2021 <-read_csv('202102-divvy-tripdata.csv')
+m1_2021 <-read_csv('202101-divvy-tripdata.csv')
+m12_2020 <-read_csv('202012-divvy-tripdata.csv')
+m11_2020 <-read_csv('202011-divvy-tripdata.csv')
+m10_2020 <-read_csv('202010-divvy-tripdata.csv')
+m9_2020 <-read_csv('202009-divvy-tripdata.csv')
+
+```
+## Problem solving: 
+1. start_station_id and end_station_id have different datatype from previous months. 
+November, October and September of 2020
+```{r Change data types, echo=FALSE}
+m11_2020 <- transform(m11_2020, start_station_id=as.character(start_station_id), 
+                      end_station_id=as.character(end_station_id))
+m10_2020 <- transform(m10_2020, start_station_id=as.character(start_station_id), end_station_id=as.character(end_station_id))
+m9_2020 <- transform(m9_2020, start_station_id=as.character(start_station_id), end_station_id=as.character(end_station_id))
+
+```
+
+# 3. Stack and inspect, process Data
+
+### Stack individual month's data frames into whole year data frame. And delete unnecessary features. 
+```{r combine data, echo=FALSE, message=FALSE, warning=FALSE}
+trips_y <- bind_rows(m8_2021, m7_2021, m6_2021, m5_2021, m4_2021, m3_2021, m2_2021, m1_2021, 
+                     m12_2020, m11_2020, m10_2020, m9_2020)
+trips_y <- trips_y %>%
+  select(-c(start_lat,start_lng,end_lat,end_lng))
+head(trips_y)
+```
+### Inspect new table, Summary for numeric and datetime columns
+```{r inspect new table, echo=FALSE, message=FALSE, warning=FALSE}
+colnames(trips_y)  #list of column names
+nrow(trips_y) # get rows of the table  4.91M
+dim(trips_y)
+head(trips_y)
+str(trips_y)
+summary(trips_y) 
+```
+
+### Character columns: More detailed information
+```{r check character columns, echo=FALSE, message=FALSE, warning=FALSE}
+length(unique(trips_y$ride_id))  #4912863
+unique(trips_y$rideable_type)  #"electric_bike" "classic_bike"  "docked_bike"  
+table(trips_y$member_casual)  # casual 2225089  member 2687983. Almost equal distribution.
+length(unique(trips_y$start_station_name))  # 758
+length(unique(trips_y$start_station_id))  #1294
+length(unique(trips_y$end_station_name))  #757
+length(unique(trips_y$end_station_id))  #1294
+```
+
+### check missing values for each columns
+```{r missing value, echo=FALSE, message=FALSE, warning=FALSE}
+for (col in names(trips_y)) {
+  missing <- sum(is.na(trips_y[,col]))
+  if (missing > 0) {
+    print(c(col, missing))
+          }
+}
+```
+
+results
+1. "start_station_name" "450045" NA         
+2. "start_station_id" "450571"  NA         
+3. "end_station_name" "491380"  NA        
+4. "end_station_id" "491764" NA
+
+### Increase columns for better presenting data. trip_duration, year, month, day, weekday
+```{r increase columns, echo=FALSE, message=FALSE, warning=FALSE}
+trips_y$year <- format(trips_y$started_at,"%Y")
+trips_y$month <- format(trips_y$started_at,"%m")
+trips_y$day <- format(trips_y$started_at,"%d")
+trips_y$day_of_week <- format(trips_y$started_at,"%A")
+
+```
+
+increase duration and change datatype
+```{r}
+trips_y$trip_duration <- difftime(trips_y$ended_at, trips_y$started_at)
+
+trips_y$trip_duration <- as.numeric(as.character(trips_y$trip_duration))
+```
+
+### Delete records which hold invalid value in trip_duration column.
+```{r delete invalid value}
+trips_y2 <- trips_y[trips_y$trip_duration >= 0,]
+
+```
+
+### Order day_of_week.
+```{r Order day_of_week, echo=FALSE, message=FALSE, warning=FALSE}
+trips_y2$day_of_week <- ordered(trips_y2$day_of_week, 
+                                levels=c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"))
+```
+
+# 4. Conduct data analysis and create visuals.
+### 01 Business increase during the last 12 months.
+conclusion: Casual users increased faster than membership users during the previous 12 months.
+
+```{r monthly increase, echo=TRUE, message=FALSE, warning=FALSE}
+trips_y2$year_month <- format(trips_y2$started_at,"%Y-%m")
+
+trips_y2 %>%
+  group_by(member_casual, year_month) %>%
+  summarise(number_of_rides = n(), average_duration = mean(trip_duration)) %>%
+  arrange(member_casual,year_month) %>%
+  ggplot(aes(x=year_month, y=number_of_rides, fill=member_casual)) +
+  geom_col(position='dodge')
+```
+
+### 02 The number of rides vs weekday and rider types
+conclusion: No obvious difference found between weekdays and weekends.
+
+```{r weekday analysis between 2 types, message=FALSE, warning=FALSE}
+trips_y2 %>%
+  mutate(weekday = wday(trips_y2$started_at, label = TRUE)) %>%    #increase a column, get weekday
+  group_by(member_casual, weekday) %>%
+  summarise(number_of_rides = n(), average_duration = mean(trip_duration)) %>%  #calculates number of rides
+  arrange(member_casual,weekday) %>%
+  ggplot(aes(x=weekday, y=number_of_rides, fill=member_casual)) +
+  geom_col(position='dodge')
+```
+
+### 03 The number of rides vs weekday and rider types
+conclusion: Casual users' average duration is more than 2 times of membership ones.
+
+```{r duration vs weekday and customer type, echo=TRUE, message=FALSE, warning=FALSE}
+trips_y2 %>%
+  mutate(weekday = wday(trips_y2$started_at, label = TRUE)) %>%    #increase a column, get weekday
+  group_by(member_casual, weekday) %>%
+  summarise(number_of_rides = n(), average_duration = mean(trip_duration)) %>%  #calculates number of rides
+  arrange(member_casual,weekday) %>%
+  ggplot(aes(x=weekday, y=average_duration, fill=member_casual)) +
+  geom_col(position='dodge')
+```
+
+### 04 Who made long time (greater than 1 hour) rides?
+conclusion: Casual users dominate long time (> 1 hour) rides.
+
+```{r}
+trips_y2 %>%
+  filter(trip_duration > 3600) %>%
+  group_by(member_casual, day_of_week) %>%
+  summarise(number_of_rides = n(), average_duration = mean(trip_duration)) %>%
+  arrange(member_casual,day_of_week) %>%
+  ggplot(aes(x=day_of_week, y=number_of_rides, fill=member_casual)) +
+  geom_col(position='dodge')
+```
+
+# 5. Export summary for future usage
+```{r export, echo=FALSE, message=FALSE, warning=FALSE}
+counts <- aggregate(trips_y2$trip_duration~trips_y2$member_casual+trips_y2$day_of_week, FUN = mean)
+setwd('D:/resume_portfolio/cyclistic_google_case1')
+write.csv(counts,file='trip2.csv')
+```
+
