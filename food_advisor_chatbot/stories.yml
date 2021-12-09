@@ -1,0 +1,245 @@
+version: "2.0"
+
+stories:
+  - story: recommend food
+    steps:
+      - intent: ask_for_food_recommendation
+      - action: utter_ask_recipe_category_for_recommendation
+      - intent: answer_recipe_category
+      - action: action_recommend_food
+
+  - story: reject food choices
+    steps:
+      - intent: reject_food_choices
+      - action: action_provide_other_food_choices
+
+  - story: accept food choices
+    steps:
+      - intent: accept_food_choices
+      - action: action_select_food
+      - action: utter_selected_food_choices
+
+  - story: search information
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: search_restaurant_information
+      - action: restaurant_search_form
+      - active_loop: restaurant_search_form
+      - active_loop: null
+      - slot_was_set:
+          - requested_slot: null
+      - action: action_search_restaurant
+      - action: utter_did_that_help
+      - checkpoint: utter_did_that_help
+
+  - story: search information (happy finding and booking)
+    steps:
+      - checkpoint: utter_did_that_help
+      - intent: affirm
+      - action: utter_ask_booking
+      - intent: affirm
+      - action: restaurant_book_form
+      - active_loop: restaurant_book_form
+      - active_loop: null
+      - slot_was_set:
+          - requested_slot: null
+      - action: action_book_restaurant
+      - action: action_clear_all_slot
+      - action: utter_goodbye
+
+  - story: search information (happy finding but no booking)
+    steps:
+      - checkpoint: utter_did_that_help
+      - intent: affirm
+      - action: utter_ask_booking
+      - intent: deny
+      - action: action_clear_all_slot
+      - action: utter_goodbye
+
+  - story: search information (unhappy finding and another search)
+    steps:
+      - checkpoint: utter_did_that_help
+      - intent: deny
+      - action: utter_other_choice
+      - intent: affirm
+      - action: action_clear_all_slot
+      - action: restaurant_search_form
+      - active_loop: restaurant_search_form
+      - active_loop: null
+      - slot_was_set:
+          - requested_slot: null
+      - action: action_search_restaurant
+      - action: utter_goodbye
+
+  - story: search information (unhappy finding and no another search)
+    steps:
+      - checkpoint: utter_did_that_help
+      - intent: deny
+      - action: utter_other_choice
+      - intent: deny
+      - action: action_clear_all_slot
+      - action: utter_goodbye
+
+  - story: If restaurant_id was set, customer affirm, help custmoer to book it.
+    steps:
+      - slot_was_set:
+          - restaurant_id: dummy
+      - action: utter_ask_booking
+      - intent: affirm
+      - action: restaurant_book_form
+      - active_loop: restaurant_book_form
+      - active_loop: null
+      - slot_was_set:
+          - requested_slot: null
+      - action: action_book_restaurant
+      - action: action_clear_all_slot
+      - action: utter_goodbye
+
+  - story: If restaurant_id was set, customer deny, ask other choice success.
+    steps:
+      - slot_was_set:
+          - restaurant_id: dummy
+      - action: utter_ask_booking
+      - intent: deny
+      - action: utter_other_choice
+      - intent: affirm
+      - action: action_clear_all_slot
+      - action: restaurant_search_form
+      - active_loop: restaurant_search_form
+      - active_loop: null
+      - slot_was_set:
+          - requested_slot: null
+      - action: action_search_restaurant
+      - action: utter_goodbye
+
+  - story: If restaurant_id was set, customer deny, ask other choice failed.
+    steps:
+      - slot_was_set:
+          - restaurant_id: dummy
+      - action: utter_ask_booking
+      - intent: deny
+      - action: utter_other_choice
+      - intent: deny
+      - action: action_clear_all_slot
+      - action: utter_goodbye
+
+  - story: book intent, two way to control.
+    steps:
+      - intent: book_restaurant
+      - action: utter_ask_booked_before
+      - checkpoint: utter_ask_booked_before
+
+  - story: for have records
+    steps:
+      - checkpoint: utter_ask_booked_before
+      - intent: affirm
+      - action: ask_customer_id_form
+      - active_loop: ask_customer_id_form
+      - active_loop: null
+      - slot_was_set:
+          - requested_slot: null
+      - action: action_get_history_record
+      - action: restaurant_book_form
+      - active_loop: restaurant_book_form
+      - active_loop: null
+      - slot_was_set:
+          - requested_slot: null
+      - action: action_book_restaurant
+      - action: action_clear_all_slot
+      - action: utter_goodbye
+
+  - story: for no records or new clients
+    steps:
+      - checkpoint: utter_ask_booked_before
+      - intent: deny
+      - action: utter_ask_city_cuisine
+      - intent: affirm
+      - action: restaurant_recommend_form
+      - active_loop: restaurant_recommend_form
+      - active_loop: null
+      - slot_was_set:
+          - requested_slot: null
+      - action: action_recommend_restaurant
+
+  - story: for no records or new clients,deny recommendation
+    steps:
+      - checkpoint: utter_ask_booked_before
+      - intent: deny
+      - action: utter_ask_city_cuisine
+      - intent: deny
+      - action: utter_goodbye
+      - action: action_clear_all_slot
+
+  - story: interactive_story_1
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: search_restaurant_information
+      - entities:
+          - restaurant_name: Pizza School
+          - attribute: address
+      - slot_was_set:
+          - restaurant_name: Pizza School
+      - slot_was_set:
+          - attribute: address
+      - action: restaurant_search_form
+      - active_loop: restaurant_search_form
+      - slot_was_set:
+          - restaurant_name: Pizza School
+      - slot_was_set:
+          - attribute: address
+      - slot_was_set:
+          - restaurant_name: Pizza School
+      - slot_was_set:
+          - attribute: address
+      - slot_was_set:
+          - requested_slot: city
+      - slot_was_set:
+          - city: Seoul
+      - slot_was_set:
+          - city: Seoul
+      - slot_was_set:
+          - requested_slot: null
+      - active_loop: null
+      - action: action_search_restaurant
+      - slot_was_set:
+          - restaurant_name: Pizza School
+      - slot_was_set:
+          - restaurant_id: d9328472
+      - action: utter_did_that_help
+      - intent: affirm
+      - action: utter_ask_booking
+      - intent: affirm
+      - action: restaurant_book_form
+      - active_loop: restaurant_book_form
+      - slot_was_set:
+          - restaurant_name: Pizza School
+      - slot_was_set:
+          - date: today
+      - slot_was_set:
+          - requested_slot: name
+      - slot_was_set:
+          - name: Joe
+      - slot_was_set:
+          - name: Joe
+      - slot_was_set:
+          - requested_slot: time
+      - slot_was_set:
+          - time: 19:30
+      - slot_was_set:
+          - time: 19:30
+      - slot_was_set:
+          - requested_slot: num_people
+      - slot_was_set:
+          - num_people: "5"
+      - slot_was_set:
+          - num_people: "5"
+      - slot_was_set:
+          - requested_slot: null
+      - active_loop: null
+      - slot_was_set:
+          - requested_slot: null
+      - action: action_book_restaurant
+      - action: action_clear_all_slot
+      - action: utter_goodbye

@@ -1,0 +1,449 @@
+version: '2.0'
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+intents:
+- affirm
+- answer_date_time
+- answer_city
+- greet
+- answer_num_people
+- answer_name
+- search_restaurant_information
+- goodbye
+- deny
+- mood_great
+- mood_unhappy
+- bot_challenge
+- search_for_food
+- answer_calories
+- answer_carbohydrate
+- answer_cholesterol
+- answer_sugar
+- answer_protein
+- answer_recipe_category
+- reject_food_choices
+- accept_food_choices
+- ask_for_food_recommendation
+- answer_form
+- complain_about_something
+- complaint_target
+- complaint_name
+- complaint_aspect
+- recommend_restaurant
+- book_restaurant
+- cancel_booking
+- rate_restaurant
+- anwser_restaurant_name
+- answer_attribute
+- answer_primary_cus
+- answer_quality
+- answer_customer_id
+- affirm_booking
+- answer_restaurant_id
+entities:
+- attribute
+- city
+- complain_aspect
+- complain_name
+- complain_target
+- content_level
+- customer_id
+- date
+- food_selection
+- meal_type
+- name
+- num_people
+- nutrition_calories
+- nutrition_carbohydrate
+- nutrition_cholesterol
+- nutrition_protein
+- nutrition_sugar
+- primary_cus
+- quality
+- recipe_category
+- restaurant_id
+- restaurant_name
+- time
+- restaurant
+slots:
+  matches:
+    type: unfeaturized
+    influence_conversation: false
+  latitude:
+    type: unfeaturized
+    influence_conversation: false
+  longitude:
+    type: unfeaturized
+    influence_conversation: false
+  nutrition_calories:
+    type: unfeaturized
+    influence_conversation: false
+  nutrition_carbohydrate:
+    type: unfeaturized
+    influence_conversation: false
+  nutrition_cholesterol:
+    type: unfeaturized
+    influence_conversation: false
+  nutrition_sugar:
+    type: unfeaturized
+    influence_conversation: false
+  nutrition_protein:
+    type: unfeaturized
+    influence_conversation: false
+  recipe_category:
+    type: unfeaturized
+    influence_conversation: false
+  food_search_result:
+    type: list
+    influence_conversation: true
+  choice_count:
+    type: unfeaturized
+    influence_conversation: false
+  food_selection:
+    type: text
+    influence_conversation: true
+  recommended_recipes:
+    type: list
+    influence_conversation: true
+  flag_action:
+    type: text
+    influence_conversation: true
+  complain_name:
+    type: unfeaturized
+    influence_conversation: false
+  complain_aspect:
+    type: unfeaturized
+    influence_conversation: false
+  complain_details:
+    type: text
+    influence_conversation: true
+  complain_target:
+    type: text
+    influence_conversation: true
+  restaurant_name:
+    type: text
+    influence_conversation: false
+  meal_type:
+    type: categorical
+    influence_conversation: true
+    values:
+    - breakfast
+    - lunch
+    - dinner
+    - coffee
+    - tea
+    - alcohol
+  quality:
+    type: categorical
+    influence_conversation: true
+    values:
+    - top
+    - good
+    - daily
+  content_level:
+    type: categorical
+    influence_conversation: true
+    values:
+    - high
+    - medium
+    - low
+    - none
+  primary_cus:
+    type: categorical
+    influence_conversation: true
+    values:
+    - japanese
+    - french
+    - italian
+    - cafe
+    - brazilian
+    - asian
+    - chinese
+    - quick bites
+    - dessert
+    - american
+    - indian
+    - bakeries
+    - fast food
+    - bar
+  city:
+    type: categorical
+    influence_conversation: true
+    values:
+    - seoul
+    - london
+    - sao paulo
+    - paris
+    - osaka
+  address:
+    type: text
+    influence_conversation: true
+  customer_id:
+    type: text
+    influence_conversation: true
+  restaurant_id:
+    type: text
+    influence_conversation: true
+  name:
+    type: text
+    influence_conversation: false
+  num_people:
+    type: float
+    influence_conversation: true
+    max_value: 1.0
+    min_value: 0.0
+  date:
+    type: text
+    initial_value: today
+    influence_conversation: true
+  time:
+    type: text
+    influence_conversation: true
+  attribute:
+    type: categorical
+    influence_conversation: true
+    values:
+    - restaurant_name
+    - city
+    - address
+    - tel
+    - email
+    - rating
+    - opion
+    - rank
+    - primary_cus
+    - recipe_name
+    - receipe_category
+    - calory
+    - cholesterol
+    - carbohydrate
+  rating_score:
+    type: text
+    auto_fill: false
+    influence_conversation: false
+  suggestion:
+    type: text
+    auto_fill: false
+    influence_conversation: false
+  spare_memo:
+    type: any
+    influence_conversation: false
+  requested_slot:
+    type: unfeaturized
+    influence_conversation: false
+responses:
+  utter_greet:
+  - text: Hey! How are you?
+  utter_cheer_up:
+  - image: https://i.imgur.com/nGF1K8f.jpg
+    text: 'Here is something to cheer you up:'
+  utter_did_that_help:
+  - text: Did that help you?
+  utter_happy:
+  - text: Great, carry on!
+  utter_goodbye:
+  - text: Bye
+  utter_iamabot:
+  - text: I am a bot, powered by Rasa.
+  utter_ask_nutrition_form_nutrition_calories:
+  - text: How many calories do you want?
+  utter_ask_nutrition_form_nutrition_carbohydrate:
+  - text: What amount of carbohydrate do you want?
+  utter_ask_nutrition_form_nutrition_cholesterol:
+  - text: What amount of cholesterol do you want?
+  utter_ask_nutrition_form_nutrition_sugar:
+  - text: How much sugar do you want in your food?
+  utter_ask_nutrition_form_nutrition_protein:
+  - text: How much protein do you want?
+  utter_ask_nutrition_form_recipe_category:
+  - text: What is the type of the food you want?
+  utter_all_nutrition_filled:
+  - text: I have got your information
+  utter_selected_food_choices:
+  - text: Have a nice meal!
+  utter_ask_recipe_category_for_recommendation:
+  - text: What type of food do you want?
+  utter_ask_complain_form_complain_name:
+  - text: Can you tell me the name of what you are complaining?
+  utter_ask_complain_form_complain_aspect:
+  - text: What aspect are you complaining about?
+  utter_ask_complain_form_complain_details:
+  - text: Can you tell me details of your complaint?
+  utter_complain_completed:
+  - text: Your complain has been recorded
+  utter_ask_complain_form_complain_target:
+  - text: What you are complaining for?
+  utter_ask_booked_before:
+  - text: Have you ever booked the restaurant or not
+  utter_ask_city:
+  - text: Which city please?
+  utter_ask_primary_cus:
+  - text: Which cuisine do you fevorate most?
+  utter_ask_quality:
+  - text: Do you need a top, or good or for daily life type restaurant?
+  utter_ask_restaurant_name:
+  - text: Which restaurant?
+  utter_ask_attribute:
+  - text: What kinds of information about it?
+  utter_ask_name:
+  - text: What is your name, please?
+  utter_ask_date:
+  - text: What day do you want to book?
+  utter_ask_time:
+  - text: What time do you want to book?
+  utter_ask_num_people:
+  - text: How many clients need be served there?
+  utter_ask_customer_id:
+  - text: Can you tell me your customer ID?
+  utter_ask_restuarant_id:
+  - text: I don't know which restaurant you want to book. Do you the restaurant ID?
+  utter_ask_rating:
+  - text: Within 0-5, which fit the restaurant's wholly perfomance
+  utter_ask_suggestion:
+  - text: Did you have any suggestions about the restuarant for other customers?
+  utter_ask_booking:
+  - text: Do you want to book that restaurant?
+  utter_other_choice:
+  - text: Do you want to change some requirement and try again?
+  utter_ask_city_cuisine:
+  - text: which city and cuisine do you want to search? Need recommendation?
+  utter_ask_rating_score:
+  - text: What rating score do you want to give?
+actions:
+- action_book_restaurant
+- action_cancel_booking
+- action_get_history_record
+- action_provide_other_food_choices
+- action_rating
+- action_recommend_food
+- action_recommend_restaurant
+- action_record_complaint
+- action_search_restaurant
+- action_select_food
+- action_suggest_food
+- utter_all_nutrition_filled
+- utter_ask_attribute
+- utter_ask_booked_before
+- utter_ask_booking
+- utter_ask_city
+- utter_ask_city_cuisine
+- utter_ask_complain_form_complain_aspect
+- utter_ask_complain_form_complain_details
+- utter_ask_complain_form_complain_name
+- utter_ask_complain_form_complain_target
+- utter_ask_customer_id
+- utter_ask_date
+- utter_ask_name
+- utter_ask_num_people
+- utter_ask_nutrition_form_nutrition_calories
+- utter_ask_nutrition_form_nutrition_carbohydrate
+- utter_ask_nutrition_form_nutrition_cholesterol
+- utter_ask_nutrition_form_nutrition_protein
+- utter_ask_nutrition_form_nutrition_sugar
+- utter_ask_nutrition_form_recipe_category
+- utter_ask_primary_cus
+- utter_ask_quality
+- utter_ask_rating
+- utter_ask_recipe_category_for_recommendation
+- utter_ask_restaurant_name
+- utter_ask_restuarant_id
+- utter_ask_suggestion
+- utter_ask_time
+- utter_cheer_up
+- utter_complain_completed
+- utter_did_that_help
+- utter_goodbye
+- utter_greet
+- utter_happy
+- utter_iamabot
+- utter_other_choice
+- utter_select_food_choices
+- action_clear_all_slot
+forms:
+  nutrition_form:
+    required_slots:
+      nutrition_calories:
+      - entity: nutrition_calories
+        type: from_entity
+      nutrition_carbohydrate:
+      - entity: nutrition_carbohydrate
+        type: from_entity
+      nutrition_cholesterol:
+      - entity: nutrition_cholesterol
+        type: from_entity
+      nutrition_protein:
+      - entity: nutrition_protein
+        type: from_entity
+      nutrition_sugar:
+      - entity: nutrition_sugar
+        type: from_entity
+      recipe_category:
+      - entity: recipe_category
+        type: from_entity
+  complain_form:
+    required_slots:
+      complain_aspect:
+      - entity: complain_aspect
+        type: from_entity
+      complain_details:
+      - type: from_text
+      complain_name:
+      - entity: complain_name
+        type: from_entity
+      complain_target:
+      - entity: complain_target
+        type: from_entity
+  restaurant_recommend_form:
+    required_slots:
+      city:
+      - entity: city
+        type: from_entity
+      primary_cus:
+      - entity: primary_cus
+        type: from_entity
+      quality:
+      - entity: quality
+        type: from_entity
+  restaurant_search_form:
+    required_slots:
+      attribute:
+      - entity: attribute
+        type: from_entity
+      city:
+      - entity: city
+        type: from_entity
+      restaurant_name:
+      - entity: restaurant_name
+        type: from_entity
+  restaurant_book_form:
+    required_slots:
+      date:
+      - entity: date
+        type: from_entity
+      name:
+      - entity: name
+        type: from_entity
+      num_people:
+      - entity: num_people
+        type: from_entity
+      restaurant_name:
+      - entity: restaurant_name
+        type: from_entity
+      time:
+      - entity: time
+        type: from_entity
+  ask_customer_id_form:
+    required_slots:
+      customer_id:
+      - entity: customer_id
+        type: from_entity
+  rating_form:
+    required_slots:
+      customer_id:
+      - entity: customer_id
+        type: from_entity
+      rating_score:
+      - type: from_text
+      suggestion:
+      - type: from_text

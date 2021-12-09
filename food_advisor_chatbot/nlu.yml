@@ -1,0 +1,418 @@
+version: "2.0"
+nlu:
+  - intent: greet
+    examples: |
+      - hey
+      - hello
+      - hi
+      - hello there
+      - good morning
+      - good evening
+      - moin
+      - hey there
+      - let's go
+      - hey dude
+      - goodmorning
+      - goodevening
+      - good afternoon
+  - intent: goodbye
+    examples: |
+      - good afternoon
+      - cu
+      - good by
+      - cee you later
+      - good night
+      - bye
+      - goodbye
+      - have a nice day
+      - see you around
+      - bye bye
+      - see you later
+  - intent: affirm
+    examples: |
+      - yes
+      - y
+      - indeed
+      - of course
+      - that sounds good
+      - correct
+  - intent: deny
+    examples: |
+      - no
+      - n
+      - never
+      - I don't think so
+      - don't like that
+      - no way
+      - not really
+  - intent: mood_great
+    examples: |
+      - perfect
+      - great
+      - amazing
+      - feeling like a king
+      - wonderful
+      - I am feeling very good
+      - I am great
+      - I am amazing
+      - I am going to save the world
+      - super stoked
+      - extremely good
+      - so so perfect
+      - so good
+      - so perfect
+  - intent: mood_unhappy
+    examples: |
+      - my day was horrible
+      - I am sad
+      - I don't feel very well
+      - I am disappointed
+      - super sad
+      - I'm so sad
+      - sad
+      - very sad
+      - unhappy
+      - not good
+      - not very good
+      - extremly sad
+      - so saad
+      - so sad
+  - intent: bot_challenge
+    examples: |
+      - are you a bot?
+      - are you a human?
+      - am I talking to a bot?
+      - am I talking to a human?
+  - intent: search_for_food
+    examples: |
+      - can you help me search for recipe?
+      - can you help me search for some cuisine?
+      - can you search some food for me?
+      - can you find some food for me?
+  - intent: answer_calories
+    examples: |
+      - [more](nutrition_calories)
+      - [more](nutrition_calories) calories
+      - I want [more](nutrition_calories) calories
+      - [less](nutrition_calories) calories is better
+  - intent: answer_carbohydrate
+    examples: |
+      - [more](nutrition_carbohydrate)
+      - [more](nutrition_carbohydrate) carbohydrate
+      - I want [more](nutrition_carbohydrate) carbohydrate
+      - [less](nutrition_carbohydrate) carbohydrate is better
+  - intent: answer_cholesterol
+    examples: |
+      - [more](nutrition_cholesterol)
+      - [more](nutrition_cholesterol) cholesterol
+      - I want [more](nutrition_cholesterol) cholesterol
+      - [less](nutrition_cholesterol) cholesterol is better
+  - intent: answer_sugar
+    examples: |
+      - [more](nutrition_sugar)
+      - [more](nutrition_sugar) sugar
+      - I want [more](nutrition_sugar) sugar
+      - [less](nutrition_sugar) sugar is better
+  - intent: answer_protein
+    examples: |
+      - [more](nutrition_protein)
+      - [more](nutrition_protein) protein
+      - I want [more](nutrition_protein) protein
+      - [less](nutrition_protein) protein is better
+  - intent: answer_recipe_category
+    examples: |
+      - [breakfast](recipe_category)
+      - It should be [breakfast](recipe_category)
+      - The category is [breakfast](recipe_category)
+      - The category should be [breakfast](recipe_category)
+  - intent: reject_food_choices
+    examples: |
+      - I don't like those food
+      - Please provide other choices
+      - This food choice doesn't match my taste
+      - Can I have more choices?
+  - intent: accept_food_choices
+    examples: |
+      - Let's choose this one
+      - Let's select this one
+      - This one seems good
+      - Let's have this one
+  - intent: ask_for_food_recommendation
+    examples: |
+      - Can you suggest me some food?
+      - Can you recommend me some food?
+      - What food do you suggest?
+      - Do you have any food suggestion?
+  - intent: complain_about_something
+    examples: |
+      - I want to complain about the [food](complain_target).
+      - I want to complain about the [restaurant](complain_target).
+      - The [restaurant](complain_target) is not as good as I expect.
+      - The [food](complain_target) seems not good to me.
+      - I feel disappointed about the [restaurant](complain_target).
+      - I want to make a complaint
+  - intent: complaint_target
+    examples: |
+      - complain for [food](complain_target)
+      - complain for [restaurant](complain_target)
+      - complain for [cuisine](complain_target)
+      - I am complaining for [food](complain_target)
+      - I am complaining for [restaurant](complain_target)
+  - intent: complaint_name
+    examples: |
+      - The food I am complaining for is called [moroccan meatballs](complain_name)
+      - The food I am complaining for is called [ham and cheese loaf](complain_name)
+      - The name of the food I am complaining for is [Blueberry Banana Snack Cakes](complain_name)
+      - The name of the food I am complaining for is [chocolate milkshake](complain_name)
+      - The restaurant I am complaining for is called [Pizza School](complain_name)
+      - The restaurant I am complaining for is called [Hwarangdae Tripes](complain_name)
+      - The restaurant I am complaining for is called [Paen China](complain_name)
+      - The restaurant I am complaining for is called [Le Bistrot](complain_name)
+      - The restaurant I am complaining for is called [Tsuruichi Branch](complain_name)
+      - The food I am complaining for is called [Potato-Ham Bake](complain_name)
+      - The food I am complaining for is called [Crock Pot Sausage](complain_name)
+      - The food I am complaining for is called [Honey Chicken](complain_name)
+      - The name of the food I am complaining for is [Veggie Lasagna](complain_name)
+      - The name of the food I am complaining for is [Creamed Mashed Potatoes](complain_name)
+  - intent: complaint_aspect
+    examples: |
+      - I am unsatisfactory about [hygiene](complain_aspect)
+      - The complaint is about [service](complain_aspect)
+      - My complaint is about [quality](complain_aspect)
+      - I'm disappointed about the [price](complain_aspect)
+  - intent: recommend_restaurant
+    examples: |
+      - hey, please help me find a [good](quality) restaurant for [dinner](meal_type)
+      - I need some place to drink a cup of [tea]{"entity": "meal_type", "value": "high tea"}, any good idea?
+      - Yeah. I like [Chinese](primary_cus), please give me a recommendation in [London](city)
+      - I like [Indian](primary_cus) food. Any idea?
+      - I am hungry. Any place for [lunch](meal_type)?
+      - I prefer [Japanese](primary_cus) food for [breakfeast](meal_type) in Down Town of [Paris](city).
+      - hi, I am [Michael](name). My id is [35174](customer_id), can you recommend some good restaurant?
+      - I need find a [good](quality) restaurant for hosting my birthday party, please recommend some [French](primary_cus) hotel?
+      - My friends want to have [Italian](primary_cus) food for [dinner](meal_type), some [good](quality) place please?
+      - Yeah, I need [Fast Food](primary_cus) for [breakfast](meal_type), any idea?
+      - Have a [drink]{"entity": "meal_type", "value": "alcohol"} [tonight](time), need a [best]{"entity": "quality", "value": "top"} bar for my friends.
+  - intent: search_restaurant_information
+    examples: |
+      - hey, please help me find a [Coco Ichibanya Joto Sekime](restaurant_name) [address](attribute).
+      - hI. I forget how I can go to [Gusto And Relish](restaurant_name) restaurant I booked before. Can you help me
+      - Please help me search [59 Pizza](restaurant_name) [email](attribute)
+      - hello, I cant find [how I can go to]{"entity": "attribute", "value": "address"} [Punjab Palace](restaurant_name)?
+      - I need [Torikizoku Umeda Dd House](restaurant_name) [telephone]{"entity": "attribute", "value": "tel"}?
+      - I need contact with [La Cantine D'Eugène], please give me their [email](attribute).
+      - Hi, my driver need [location]{"entity": "attribute", "value": "address"} of [Bagel on the Park](restaurant_name), please provided now.
+      - Yeah, the restaurant I booked [yesterday](date), I cant remember name and [telphone number]{"entity": "attribute", "value": "tel"} of them.
+      - hi, I am [Jone Smith](name). My id is [3524](customer_id), I cant remmber my booking yet.
+      - I have reserved a [Japanese](primary_cus) for [lunch](meal_type). But I cant remmeber their [contact information]{"entity": "attribute", "value": "tel"}
+      - I need [Cafe Ice Ber](restaurant_name) help. Please help me find their [tel number]{"entity": "attribute", "value": "tel"}
+      - I want call [Bagel on the Park], give me their [number]{"entity": "attribute", "value": "tel"}
+      - This is [Tina Perteson](name), your clients has booked a restaurant [today](date), I need call my restaurant, give me the [number]{"entity": "attribute", "value": "tel"}
+      - I want know telphone number about [ABC restaurant](restaurant_name).
+      - I need your help to provide more information about the restaurant
+      - what is the [rating](attribute) about the restaurant
+      - How is about the restuarant [rank](attribute) and [rating](attribute)
+      - Does they provide [Italian](primary_cus)
+      - How can I go [there]{"entity": "attribute", "value": "address"}?
+      - I need get the address of [Nando's](restaurant_name) restaurant as soon as possible.
+      - hey, please help me find [Pizza School](restaurant_name) [address](attribute)
+  - intent: book_restaurant
+    examples: |
+      - Yes. I like [Cafe Ice Beri](restaurant_name), please help me book it.
+      - I am your clients, please rebook the restaurant I have gone [last Saturday](date) night(time).
+      - I need [Acorn Gun Mushrooms Lamb](restaurant_name) reserve [6](num_people) for dinner(meal_type).
+      - Book a [high level]{"entity": "quality", "value": "top"} [Italian](primary_cus) for me. We are [4](num_people) [at noon](time) [today](date).
+      - We have a party, please reserve [2](num_people) seats for me at [14pm](time) on [Augest 8](date)
+      - Please ask [Mister Tango](restaurant_name) reserve [5](num_people) reserve seats for us. we are [3](num_people)
+      - We have gone there [last month](date), please rebook for [5](num_people) clients next [Monday](date) [8 o'clcok](time).
+      - My name is [Michael](name), your clients. and My id is [1234](customer_id), please help me book a restuarant.
+      - Please help me book a restaurant.
+  - intent: cancel_booking
+    examples: |
+      - Yes. [Bil Radeu Seupai Si](restaurant_name) I booked [yesterday](date). I am sorry, I cant go there [today](date), I want to cancel the reservation.
+      - I want to cancel my booking, can you help me.
+      - Yes. I need call off my appointment that [last tuesday](date) I have booked.
+      - I am sorry, but I have to delete my reservation about [Tribu's Burgers](restaurant_name).
+      - I have ordered [Bib Bar](restaurant_name) for some [drink]{"entity": "meal_type", "value": "alcohol"} with my colleges, but I have to cancel the appointment for urgent reasons.
+      - Please help tell the restaurant, don't' reserve the seat anymore.
+      - Please help cancel my booking, that is about a hour ago.
+      - No reservation needed now.
+  - intent: rate_restaurant
+    examples: |
+      - The restaurant food is [excellent](quality), I want give them a thumb up.
+      - [Bil Radeu Seupai S](restaurant) is really amazing, all people their are very kind.
+      - I have to say, the enviornment of [Su Rice House](restaurant) is really terrible. Too noisy that I cant talk with my friend normally.
+      - The taste of [coffee](meal_type) is a little wired. I will never go there anymore.
+      - I love that place. Quiet and nice, and very delicious dishes.
+      - I highly recommend this restaurant for other guys. Damn good.
+      - The servant there are so careless.
+      - [Fast food]{"entity": "primary_cus", "value": "Fast Food"} is not fast at all.
+      - I highly suggest they need find another chef. The food is not good.
+      - The price of [Bib Bar](restaurant) can't comply with their service and food.
+      - The hotel I went their is [Jan 1](date), at [18:30](time). We have a extremely remontic night there.
+  - intent: answer_city
+    examples: |
+      - The city is [London](city).
+      - The restaurant is in [Seoul](city).
+      - The restaurant is located at [Paris](city).
+      - The city should be [Osaka](city).
+      - The restaurant is in [Seoul](city)
+  - intent: anwser_restaurant_name
+    examples: |
+      - The name of the restaurant is [Pizza School](restaurant_name).
+      - The restaurant name is [Acorn Gun Mushrooms Lamb](restaurant_name).
+      - The restaurant is called [The Piola](restaurant_name).
+      - It is called [Cafe Ice Beri](restaurant_name).
+      - It's name is called [Bi and Di Seute Isyeon](restaurant_name).
+  - intent: answer_attribute
+    examples: |
+      - I want to know about the [email](attribute).
+      - I want to know about the restaurant's [address](attribute).
+      - Can you tell me about the restaurant's [rating](attribute)?
+      - Can you tell me the [tel](attribute) of the restaurant?
+      - Please provide me the [rank](attribute) of the restaurant.
+  - intent: answer_primary_cus
+    examples: |
+      - [Brazilian](primary_cus) cuisine is what I fevorate the most.
+      - [Italian](primary_cus) cuisine, please.
+      - I like the most the [Japanese](primary_cus) cuisine.
+      - My favorite cuisine is [French](primary_cus) cuisine.
+      - The cuisine I fevorate the most is [Quick Bites](primary_cus).
+  - intent: answer_quality
+    examples: |
+      - [top](quality) quality, please.
+      - I want a [good](quality) quality restaurant.
+      - I prefer a [good](quality) quality of restaurant.
+      - Can you select a [daily](quality) quality restaurant for me, please?
+  - intent: answer_name
+    examples: |
+      - My name is [Joe](name).
+      - You can call me [John](name).
+      - Call me [Jone Smith](name).
+      - Just call me [Peter Johnson](name)
+      - My name is [Joe](name)
+  - intent: answer_date_time
+    examples: |
+      - Please help me book the restaurant at [23 Jan](date) [19:00](time).
+      - Please help me reserve a table at [6 Nov](date) [20:30](time).
+      - The date and time of the booking should be [15 Oct](date) [18:00](time).
+      - I want the booking to be at [8 Feb](date) [12:30](time).
+      - Please help me reserve a table for lunch at [8 Mar](date) [11:30](time).
+      - Please book the restaurant for dinner at [3 July](date) [20:00](time).
+      - Please help me book the restaurant at [19:30](time)
+  - intent: answer_num_people
+    examples: |
+      - We have in total [4](num_people) clients.
+      - There are [3](num_people) for the booking.
+      - The booking is for [5](num_people) clients.
+      - The reservation is for [6](num_people) clients.
+      - There are in total [2](num_people) clients.
+      - We have in total [5](num_people) clients
+  - intent: answer_customer_id
+    examples: |
+      - My customer id would be [55234](customer_id).
+      - My id is [6679](customer_id).
+      - Here is my id, [84563](customer_id).
+  - intent: affirm_booking
+    examples: |
+      - yes, I want to book that restaurant.
+      - yes, please help me book that restaurant.
+      - yes, please help me reserve a table in that restaurant.
+      - ok, I want to book that restaurant.
+      - yes, I like that restaurant, can you help me to book it?
+  - intent: answer_restaurant_id
+    examples: |
+      - The restaurant id is [d9334370](restaurant_id)
+      - I have got a restaurant id, it is [d8946024](restaurant_id)
+      - There is a restaurant id [d5344048](restaurant_id)
+      - I have found a restaurant with id [d5674478](restaurant_id)
+  - synonym: high tea
+    examples: |
+      - tea
+  - synonym: alcohol
+    examples: |
+      - drink
+  - synonym: top
+    examples: |
+      - best
+      - high level
+  - synonym: address
+    examples: |
+      - how I can go to
+      - location
+      - there
+  - synonym: tel
+    examples: |
+      - telephone
+      - telphone number
+      - contact information
+      - tel number
+      - number
+  - synonym: Fast Food
+    examples: |
+      - Fast food
+  - regex: customer_id
+    examples: |
+      - \d{4,5}
+  - lookup: quality
+    examples: |
+      - top
+      - good
+      - daily
+  - lookup: city
+    examples: |
+      - Seoul
+      - London
+      - Sao Paulo
+      - Paris
+      - Osaka
+  - lookup: meal_type
+    examples: |
+      - breakfast
+      - lunch
+      - dinner
+      - coffee
+      - tea
+      - alcohol
+  - lookup: primary_cus
+    examples: |
+      - Japanese
+      - French
+      - Italian
+      - Cafe
+      - Brazilian
+      - Asian
+      - Chinese
+      - Quick Bites
+      - Dessert
+      - American
+      - Indian
+      - Bakeries
+      - Fast Food
+      - Bar
+  - lookup: attribute
+    examples: |
+      - restaurant_name
+      - city
+      - address
+      - tel
+      - email
+      - rating
+      - opion
+      - rank
+      - primary_cus
+      - recipe_name
+      - receipe_category
+      - calory
+      - cholesterol
+      - carbohydrate
+  - lookup: complain_target
+    examples: |
+      - food
+      - restaurant
+  - lookup: complain_aspect
+    examples: |
+      - hygiene
+      - service
+      - quality
+      - price

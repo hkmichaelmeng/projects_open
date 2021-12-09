@@ -1,0 +1,92 @@
+version: "2.0"
+
+rules:
+  - rule: Say goodbye anytime the user says goodbye
+    steps:
+      - intent: goodbye
+      - action: utter_goodbye
+
+  - rule: Say 'I am a bot' anytime the user challenges
+    steps:
+      - intent: bot_challenge
+      - action: utter_iamabot
+
+  - rule: Activate form nutrition
+    steps:
+      - intent: search_for_food
+      - action: nutrition_form
+      - active_loop: nutrition_form
+
+  - rule: Submit form nutrition
+    condition:
+      # Condition that form is active.
+      - active_loop: nutrition_form
+    steps:
+      # Form is deactivated
+      - action: nutrition_form
+      - active_loop: null
+      - slot_was_set:
+          - requested_slot: null
+      - action: action_suggest_food
+
+  - rule: Activate form complain
+    steps:
+      - intent: complain_about_something
+      - action: complain_form
+      - active_loop: complain_form
+
+  - rule: Submit form complain
+    condition:
+      # Condition that form is active.
+      - active_loop: complain_form
+    steps:
+      # Form is deactivated
+      - action: complain_form
+      - active_loop: null
+      - slot_was_set:
+          - requested_slot: null
+      - action: action_record_complaint
+
+  - rule: collect information whenever customer need help to search information
+    steps:
+      - intent: recommend_restaurant
+      - action: restaurant_recommend_form
+      - active_loop: restaurant_recommend_form
+
+  - rule: if all information is collected, execute the search action and return right answers.
+    condition:
+      # Condition that form is active.
+      - active_loop: restaurant_recommend_form
+    steps:
+      # Form is deactivated
+      - action: restaurant_recommend_form
+      - active_loop: null
+      - slot_was_set:
+          - requested_slot: null
+      # The actions we want to run when the form is submitted.
+      - action: action_recommend_restaurant
+
+  - rule: cancel booking
+    steps:
+      - intent: cancel_booking
+      - action: ask_customer_id_form
+      - active_loop: ask_customer_id_form
+      - active_loop: null
+      - slot_was_set:
+          - requested_slot: null
+      - action: action_cancel_booking
+      - action: utter_cheer_up
+
+  - rule: activate rating form
+    steps:
+      - intent: rate_restaurant
+      - action: rating_form
+      - active_loop: rating_form
+
+  - rule: submit form and excute rating
+    condition:
+      - active_loop: rating_form
+    steps:
+      - action: rating_form
+      - active_loop: null
+      - action: action_rating
